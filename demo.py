@@ -5,6 +5,7 @@ import numpy as np
 from itertools import repeat
 from sys import setrecursionlimit
 setrecursionlimit(50000)
+from data import load_cifar10
 
 # Provided
 from utilityFunctions import restart
@@ -28,7 +29,16 @@ from regularisation import l1, l2
 # normalised or whitened CIFAR10. Format should be numpy arrays with shapes:
 # x: (data, channels, vertical axis, horizontal axis)
 # y: (data, classes), or (data, 1) for regression to a point.
-xTrain, yTrain, xVal, yVal = 
+dataset = load_cifar10()
+xTrain = np.moveaxis(dataset.x_train, 3, 1)
+yTrain = dataset.y_train
+xVal = np.moveaxis(dataset.x_test, 3, 1)
+yVal = dataset.y_test
+
+print(xTrain.shape)
+print(yTrain.shape)
+print(xVal.shape)
+print(yVal.shape)
 
 # Data
 trainingData = (xTrain, yTrain)
