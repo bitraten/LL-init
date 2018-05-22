@@ -3,7 +3,10 @@ import theano.tensor as T
 import numpy as np
 import time
 import h5py
-import cPickle as pickle
+try:
+    import _pickle as pickle
+except ImportError:
+	import cPickle as pickle
 
 from utilityFunctions import (preds, printStats, geoMean, floatToString,
 		getWithName, intCounter)
@@ -149,7 +152,7 @@ class NN(object): # {{{
 	def evaluate(self, x, y, batchSize=64):
 		if not self.evaluateCompiled:
 			self.compileEvaluate()
-		numBatches = x.shape[0]/batchSize
+		numBatches = x.shape[0]//batchSize
 		batches = [
 			(x[i*batchSize:(i + 1)*batchSize], y[i*batchSize:(i + 1)*batchSize])
 			for i in range(numBatches)
@@ -167,10 +170,10 @@ class NN(object): # {{{
 				l, pred = self._eval(xBatch, yBatch)
 			lS.append(xBatch.shape[0]*l)
 			predS.append(pred)
-		l = sum(lS)/x.shape[0]
+		l = sum(lS)//x.shape[0]
 		pred = np.concatenate(predS, axis=0)
 		if self.classify:
-			a = sum(aS)/x.shape[0]
+			a = sum(aS)//x.shape[0]
 			return l, pred, a
 		else:
 			return l, pred # }}}
@@ -191,9 +194,9 @@ class NN(object): # {{{
 			inds = np.arange(epochLen)
 			np.random.shuffle(inds)
 			batchIndices = [inds[batchSize*i:batchSize*(i + 1)]
-					for i in range(epochLen / batchSize)]
+					for i in range(epochLen // batchSize)]
 			if epochLen % batchSize != 0:
-				batchIndices += [inds[batchSize*(epochLen / batchSize):]]
+				batchIndices += [inds[batchSize*(epochLen // batchSize):]]
 
 		loss = 0.
 		acc = 0.

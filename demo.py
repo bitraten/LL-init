@@ -336,7 +336,7 @@ def modConv(): # {{{
 			flow = Observation()(flow)
 		if resNet:
 			assert modsPerSection % 2 == 1
-			for j in range((modsPerSection-1)/2):
+			for j in range((modsPerSection-1)//2):
 				flow = resModule(gamma2, flow, filters, dropout)
 		else:
 			for j in range(modsPerSection-1):

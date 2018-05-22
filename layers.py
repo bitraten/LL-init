@@ -214,7 +214,7 @@ class Convolution(Layer): # {{{
 		self.bias = bias
 		self.depth = 1
 		if border_mode in [None, 'half']:
-			self.border_mode = ((s[0] - 1)/2, (s[1] - 1)/2)
+			self.border_mode = ((s[0] - 1)//2, (s[1] - 1)//2)
 		else:
 			self.border_mode = border_mode
 		self.initKWArgs['s'] = self.s
@@ -225,7 +225,7 @@ class Convolution(Layer): # {{{
 
 	def build(self, rep): # {{{
 		sfun = (lambda i: (self.inputShape[i + 1]
-				+ 2*self.border_mode[i] - self.s[i] + 1)/self.strides[i])
+				+ 2*self.border_mode[i] - self.s[i] + 1)//self.strides[i])
 		self.outputShape = (self.numFilters, sfun(0), sfun(1))
 
 		weights = self.initialisation(self.inputShape,

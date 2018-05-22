@@ -11,7 +11,10 @@ mpl.use('Agg')
 import matplotlib.pyplot as plt
 
 import h5py
-import cPickle as pickle
+try:
+    import _pickle as pickle
+except ImportError:
+	import cPickle as pickle
 
 import gc
 

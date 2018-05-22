@@ -13,7 +13,7 @@ def glorotNormal(inputShape, outputShape, s=(3, 3), relu=False, # {{{
 	if mirror:
 		assert inputShape[0] % 2 == 0
 		iS = list(inputShape)
-		iS[0] = iS[0]/2
+		iS[0] = iS[0]//2
 		inputShape = tuple(iS)
 
 	if len(inputShape) == 1:
@@ -75,7 +75,7 @@ def orthogonal(inputShape, outputShape, # {{{
 	numFilters = outputShape[0] # fan out if FC
 	if mirror:
 		assert channelsIn % 2 == 0
-		channelsIn /= 2
+		channelsIn = channelsIn // 2
 
 	# SVD of a randomly generated matrix gets us a nice orthogonal matrix.
 	m = max(numFilters, channelsIn)
@@ -87,8 +87,8 @@ def orthogonal(inputShape, outputShape, # {{{
 	# vectors we just generated. Otherwise just makes the appropriate matrix.
 	if forConv:
 		w = np.zeros((numFilters, channelsIn, s[0], s[1]))
-		cx = (s[0]-1)/2 # central coordinate each filter (x-axis)
-		cy = (s[1]-1)/2 #                                (y-axis)
+		cx = (s[0]-1)//2 # central coordinate each filter (x-axis)
+		cy = (s[1]-1)//2 #                                (y-axis)
 		w[:,:,cx,cy] = u
 		if pooling:
 			w[:,:,cx-1,cy] = u
