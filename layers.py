@@ -2,7 +2,7 @@ import theano
 import theano.tensor as T
 from theano.tensor.shared_randomstreams import RandomStreams
 srng = RandomStreams()
-theano.config.floatX = 'float32'
+theano.config.floatX = 'float64'
 theano.config.intX = 'int32'
 import numpy as np
 
